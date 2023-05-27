@@ -17,12 +17,20 @@ pygame.init() #Se inicializa pygame
 
 COLOR_ROJO = (255,0,0)
 
+ANCHO_VENTANA = 640
+ALTO_VENTANA = 480
 
-pantalla = pygame.display.set_mode((640,480))#creo la ventana
+
+
+pantalla = pygame.display.set_mode((ANCHO_VENTANA,ALTO_VENTANA))#creo la ventana
     
 flag_correr = True #Se crea para el while
 
 posicion_circulo = [0,100]
+
+posicion_circulo_auto = [500,0]
+
+posicion_circulo_auto_dos = [250,0]
 
 tiempo = pygame.USEREVENT + 0
 pygame.time.set_timer(tiempo,100)
@@ -35,29 +43,75 @@ while flag_correr:
 
             flag_correr = False
 
-        if evento.type == pygame.KEYDOWN:
+        if evento.type == tiempo:
 
-            if evento.type == pygame.K_LEFT:
+            if posicion_circulo_auto[1] < ALTO_VENTANA + 40 and posicion_circulo_auto_dos[1] < ALTO_VENTANA + 40:
 
-                posicion_circulo[0] = posicion_circulo[0] - 10
+                posicion_circulo_auto[1] = posicion_circulo_auto[1] + 5
 
-            elif evento.type == pygame.K_RIGHT:
-
-                posicion_circulo[0] = posicion_circulo[0] + 10
+                posicion_circulo_auto_dos[1] = posicion_circulo_auto_dos[1] + 5
             
-            elif evento.type == pygame.K_DOWN:
+            else:
 
-                posicion_circulo[1] = posicion_circulo[1] + 10
+                posicion_circulo_auto[1] = 0
+                posicion_circulo_auto_dos[1] = 0
 
-            elif evento.type == pygame.K_UP:
 
-                posicion_circulo[1] = posicion_circulo[1] - 10
+
+    lista_boton = pygame.key.get_pressed()
+
+    if True in lista_boton:
+
+        if lista_boton[pygame.K_UP]:
+
+            if posicion_circulo[1] > -2:
+
+                posicion_circulo[1] = posicion_circulo[1] - 2
+            
+            else:
+
+                posicion_circulo[1] = 480
+
+        elif lista_boton[pygame.K_DOWN]:
+
+            if posicion_circulo[1] < 480 + 40:
+
+                posicion_circulo[1] = posicion_circulo[1] + 2
+
+            else:
+
+                posicion_circulo[1] = 0
+
+        elif lista_boton[pygame.K_LEFT]:
+
+            if posicion_circulo[0] > -20:
+
+                posicion_circulo[0] = posicion_circulo[0] - 2
+
+            else:
+                posicion_circulo[0] = 640
+
+        elif lista_boton[pygame.K_RIGHT]:
+
+            if posicion_circulo[0] < 640 + 40:
+
+
+                posicion_circulo[0] = posicion_circulo[0] + 2
+
+            else:
+
+                posicion_circulo[0] = 0
 
 
 
     pantalla.fill((255,255,255))
 
     pygame.draw.circle(pantalla,COLOR_ROJO,posicion_circulo,50)
+
+    pygame.draw.circle(pantalla,(0,0,255),posicion_circulo_auto,50)
+
+    pygame.draw.circle(pantalla,(0,0,255),posicion_circulo_auto_dos,50)
+
 
     pygame.display.flip()
 

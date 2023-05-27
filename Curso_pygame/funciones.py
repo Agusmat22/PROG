@@ -1,0 +1,1 @@
+def personaje_caminando()
